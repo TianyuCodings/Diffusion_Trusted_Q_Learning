@@ -1,4 +1,4 @@
-## Diffusion Trusted Policies for Offline RL &mdash; Official PyTorch Implementation
+##  Diffusion Trusted Q-Learning for Offline RL &mdash; Official PyTorch Implementation
 
 **Diffusion Policies creating a Trust Region for Offline Reinforcement Learning**<br>
 Tianyu Chen, Zhendong Wang, and Mingyuan Zhou <br> 
