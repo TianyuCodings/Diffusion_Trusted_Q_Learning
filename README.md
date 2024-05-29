@@ -34,8 +34,8 @@ The loss ensures that the generated action lies within the in-sample datasets' a
 With the gradient of the Q-function, it allows actions to freely move within the in-sample data manifold and gravitate towards high-reward regions. 
 
 We compare our behaviour regularization loss (diffusion trusted region loss) with Kullback–Leibler based behaviour regularization loss. The difference is shown in toy 2D bandit examples.
-![pdf info](assets/DTQL_toy.pdf)
 
+![DTQL](./assets/DTQL_toy.png)
 
 
 ## Experiments
