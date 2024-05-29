@@ -33,7 +33,7 @@ We bridge the two policies through our newly introduced diffusion trust region l
 The loss ensures that the generated action lies within the in-sample datasets' action manifold. 
 With the gradient of the Q-function, it allows actions to freely move within the in-sample data manifold and gravitate towards high-reward regions. 
 
-We compare our behaviour regularization loss (diffusion trusted region loss) with Kullback–Leibler based behaviour regularization loss. The difference is shown in toy 2D bandit examples.
+We compare our behaviour regularization loss (diffusion trusted region loss) with Kullback–Leibler based behaviour regularization loss. We tested their differential impact on behavior regularization, using a trained Q-function for policy improvement. Red points represent actions generated from the one-step policy.
 
 ![DTQL](./assets/DTQL_toy.png)
 
