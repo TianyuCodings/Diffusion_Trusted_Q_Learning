@@ -9,7 +9,8 @@ import d4rl
 from utils import utils
 from utils.data_sampler import Data_Sampler
 from utils.logger import logger, setup_logger
-from agents.dtql import DTQL as Agent
+#from agents.dtql import DTQL as Agent
+from agents.dql_kl import DQL_KL as Agent
 import random
 
 offline_hyperparameters = {

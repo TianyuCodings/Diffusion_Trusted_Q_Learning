@@ -1,4 +1,5 @@
-
+import torch
+import torch.nn.functional as F
 class EMA():
     '''
         empirical moving average
@@ -16,3 +17,23 @@ class EMA():
         if old is None:
             return new
         return old * self.beta + (1 - self.beta) * new
+
+
+def get_dmd_loss(diffusion_model, true_score_model, fake_score_model, fake_action_data, state_data):
+    noise = torch.randn_like(fake_action_data)
+    fake_score_model.eval()
+    true_score_model.eval()
+    with torch.no_grad():
+        pred_real_action, _, t_chosen = diffusion_model.diffusion_train_step(model=true_score_model,
+                                                                             x=fake_action_data, cond=state_data,
+                                                                             noise=noise, t_chosen=None,
+                                                                             return_denoised=True)
+
+        pred_fake_action, _, t_chosen = diffusion_model.diffusion_train_step(model=fake_score_model,
+                                                                             x=fake_action_data, cond=state_data,
+                                                                             noise=noise, t_chosen=t_chosen,
+                                                                             return_denoised=True)
+        weighting_factor = (fake_action_data - pred_real_action).abs().mean(axis=1).reshape(-1, 1)
+        grad = (pred_fake_action - pred_real_action) / weighting_factor
+    distill_loss = 0.5 * F.mse_loss(fake_action_data, (fake_action_data - grad).detach())
+    return distill_loss
