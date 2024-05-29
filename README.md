@@ -26,6 +26,18 @@ scenarios and gym tasks. We then show that DTQL could not only outperform
 other methods on the majority of the D4RL benchmark tasks but also 
 demonstrate efficiency in training and inference speeds.*
 
+## Introduction
+
+We introduce a dual-policy approach, Diffusion Trusted Q-Learning (DTQL): a diffusion policy for pure behavior cloning and a one-step policy for actual depolyment. 
+We bridge the two policies through our newly introduced diffusion trust region loss. 
+The loss ensures that the generated action lies within the in-sample datasets' action manifold. 
+With the gradient of the Q-function, it allows actions to freely move within the in-sample data manifold and gravitate towards high-reward regions. 
+
+We compare our behaviour regularization loss (diffusion trusted region loss) with Kullback–Leibler based behaviour regularization loss. The difference is shown in toy 2D bandit examples.
+![pdf info](assets/DTQL_toy.pdf)
+
+
+
 ## Experiments
 
 ### Requirements
