@@ -7,7 +7,7 @@ from diffusion.karras import DiffusionModel
 from diffusion.mlps import ScoreNetwork
 from agents.model import Critic
 from agents.helpers import EMA, get_dmd_loss
-
+import numpy as np
 class DQL_KL(object):
     def __init__(self,
                  device,
@@ -170,7 +170,7 @@ class DQL_KL(object):
         # initialize
         self.bc_loss = torch.tensor([0.]).to(self.device)
         self.critic_loss = torch.tensor([0.]).to(self.device)
-        metric = {'bc_loss': [], 'distill_loss':[], 'ql_loss': [], 'actor_loss': [], 'critic_loss': []}
+        metric = {'bc_loss': [], 'distill_loss':[], 'ql_loss': [], 'actor_loss': [], 'critic_loss': [], 'gamma_loss': []}
         state, action, next_state, reward, not_done = replay_buffer.sample(batch_size)
 
         """ Q Training """
@@ -218,6 +218,7 @@ class DQL_KL(object):
         metric['ql_loss'].append(q_loss.item())
         metric['critic_loss'].append(self.critic_loss.item())
         metric['distill_loss'].append(distill_loss.item())
+        metric['gamma_loss'].append(np.nan)
 
         if self.lr_decay:
             self.bc_actor_lr_scheduler.step()

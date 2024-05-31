@@ -10,6 +10,8 @@ from utils import utils
 from utils.data_sampler import Data_Sampler
 from utils.logger import logger, setup_logger
 #from agents.dtql import DTQL as Agent
+
+"""If you are using DQL-KL, you can specific generation_sigma when init agent"""
 from agents.dql_kl import DQL_KL as Agent
 import random
 
