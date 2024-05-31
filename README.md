@@ -1,7 +1,7 @@
 ##  Diffusion Trusted Q-Learning for Offline RL &mdash; Official PyTorch Implementation
 
 **Diffusion Policies creating a Trust Region for Offline Reinforcement Learning**<br>
-Tianyu Chen, Zhendong Wang, and Mingyuan Zhou <br> arxiv_link
+Tianyu Chen, Zhendong Wang, and Mingyuan Zhou <br> https://arxiv.org/abs/2405.19690
 <br>
 
 Abstract: *Offline reinforcement learning (RL) leverages pre-collected 
@@ -57,7 +57,14 @@ Definitely, there could exist better hyperparameter settings. Feel free to have 
 
 If you find this open source release useful, please cite in your paper:
 ```
-
+@misc{chen2024diffusion,
+      title={Diffusion Policies creating a Trust Region for Offline Reinforcement Learning}, 
+      author={Tianyu Chen and Zhendong Wang and Mingyuan Zhou},
+      year={2024},
+      eprint={2405.19690},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
 ```
 
 ## Acknowledgement
