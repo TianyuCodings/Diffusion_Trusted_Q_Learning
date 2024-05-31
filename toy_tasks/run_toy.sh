@@ -14,12 +14,7 @@ python toy_main.py --device=0 --env_name=25_gaussian --distill_loss=dmd --reward
 python toy_main.py --device=1 --env_name=25_gaussian --distill_loss=dmd --reward_type=hard --actor=implicit  --train_epochs=2500&
 
 python toy_main.py --device=2 --env_name=swiss_roll_2D --distill_loss=diffusion --reward_type=near --actor=sac --seed=2 &
-python toy_main.py --device=3 --env_name=swiss_roll_2D --distill_loss=diffusion --reward_type=far --actor=sac --seed=2 &
 python toy_main.py --device=0 --env_name=swiss_roll_2D --distill_loss=diffusion --reward_type=far --actor=sac --eta=5 --seed=2 &
-
-python toy_main.py --device=0 --env_name=swiss_roll_2D --distill_loss=diffusion --reward_type=near --actor=sac  --gamma=0.005&
-python toy_main.py --device=1 --env_name=swiss_roll_2D --distill_loss=diffusion --reward_type=far --actor=sac  --gamma=0.005&
-python toy_main.py --device=2 --env_name=swiss_roll_2D --distill_loss=diffusion --reward_type=far --actor=sac --eta=5 --gamma=0.005&
 
 python toy_main.py --device=0 --env_name=swiss_roll_2D --distill_loss=dmd --reward_type=near --actor=implicit --train_epochs=1500&
 python toy_main.py --device=1 --env_name=swiss_roll_2D --distill_loss=dmd --reward_type=far --actor=implicit  &

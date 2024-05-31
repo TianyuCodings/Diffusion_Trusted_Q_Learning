@@ -57,7 +57,8 @@ class DQL_KL(object):
             sigma_min=sigma_min,
             sigma_max=sigma_max,
             device=device,
-            clip_denoised=True)
+            clip_denoised=True,
+            max_action=float(action_space.high[0]))
 
         """Init one-step policy"""
         self.distill_actor = ScoreNetwork(
@@ -94,13 +95,6 @@ class DQL_KL(object):
         self.lr_decay = lr_decay
         self.gamma = gamma
         self.repeats = repeats
-
-        if action_space is None:
-            self.action_scale = 1.
-            self.action_bias = 0.
-        else:
-            self.action_scale = (action_space.high - action_space.low) / 2.
-            self.action_bias = (action_space.high + action_space.low) / 2.
 
         self.step = 0
         self.step_start_ema = step_start_ema
@@ -237,9 +231,6 @@ class DQL_KL(object):
             q_value = self.critic_target.q_min(state_rpt, action).flatten()
         idx = torch.multinomial(F.softmax(q_value), 1)
         action = action[idx].cpu().data.numpy().flatten()
-
-        action = action.clip(-1, 1)
-        action = action * self.action_scale + self.action_bias
         return action
 
     def save_model(self, dir, id=None):

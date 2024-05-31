@@ -18,7 +18,6 @@ class DTQL(object):
                  action_dim,
                  action_space=None,
                  discount=0.99,
-                 max_q_backup=False,
                  alpha=1.0,
                  ema_decay=0.995,
                  step_start_ema=1000,
@@ -60,7 +59,8 @@ class DTQL(object):
             sigma_min=sigma_min,
             sigma_max=sigma_max,
             device=device,
-            clip_denoised=True)
+            clip_denoised=True,
+            max_action=float(action_space.high[0]))
 
         """Init sac"""
         self.distill_actor = DiagGaussianActorTanhAction(state_dim=state_dim, action_dim=action_dim,
@@ -74,13 +74,6 @@ class DTQL(object):
         self.lr_decay = lr_decay
         self.gamma = gamma
         self.repeats = repeats
-
-        if action_space is None:
-            self.action_scale = 1.
-            self.action_bias = 0.
-        else:
-            self.action_scale = (action_space.high - action_space.low) / 2.
-            self.action_bias = (action_space.high + action_space.low) / 2.
 
         self.step = 0
         self.step_start_ema = step_start_ema
@@ -98,7 +91,7 @@ class DTQL(object):
         self.alpha = alpha  # bc weight
         self.expectile = expectile
         self.device = device
-        self.max_q_backup = max_q_backup
+
 
     def step_ema(self):
         if self.step < self.step_start_ema:
@@ -191,9 +184,6 @@ class DTQL(object):
             q_value = self.critic_target.q_min(state_rpt, action).flatten()
         idx = torch.multinomial(F.softmax(q_value), 1)
         action = action[idx].cpu().data.numpy().flatten()
-
-        action = action.clip(-1, 1)
-        action = action * self.action_scale + self.action_bias
         return action
 
     def save_model(self, dir, id=None):

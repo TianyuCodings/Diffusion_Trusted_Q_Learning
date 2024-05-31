@@ -11,6 +11,7 @@ class DiffusionModel(nn.Module):
             device: str,
             sigma_sample_density_type: str = 'loglogistic',
             clip_denoised=False,
+            max_action=1.0,
     ) -> None:
         super().__init__()
 
@@ -22,6 +23,7 @@ class DiffusionModel(nn.Module):
         self.sigma_sample_density_type = sigma_sample_density_type
         self.epochs = 0
         self.clip_denoised = clip_denoised
+        self.max_action = max_action
 
     def get_diffusion_scalings(self, sigma):
         """
@@ -102,7 +104,7 @@ class DiffusionModel(nn.Module):
 
         if self.clip_denoised:
             denoised_x = c_out * model_output + c_skip * x_1
-            denoised_x = denoised_x.clamp(-1,1)
+            denoised_x = denoised_x.clamp(-self.max_action,self.max_action)
             loss = ((denoised_x - x)/c_out).pow(2).mean()
         else:
             denoised_x = c_out * model_output + c_skip * x_1

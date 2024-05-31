@@ -98,7 +98,7 @@ def train_toy_task(args,file_name):
 
     if args.actor == "sac":
         distill_actor = DiagGaussianActorTanhAction(state_dim=1, action_dim=2,
-                                              max_action=action.abs().max(),use_scale=True).to(device)
+                                              max_action=action.abs().max()).to(device)
     elif args.actor == "implicit":
         distill_actor = ScoreNetwork(
             action_dim=2,

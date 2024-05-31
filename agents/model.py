@@ -78,7 +78,7 @@ class DiagGaussianActorTanhAction(nn.Module):
     """torch.distributions implementation of an diagonal Gaussian policy."""
     def __init__(self, state_dim, action_dim, max_action,
                  hidden_dim=256, hidden_depth=3,
-                 log_std_bounds=[-5, 2], use_scale=False):
+                 log_std_bounds=[-5, 2]):
         super().__init__()
 
         self.log_std_bounds = log_std_bounds
@@ -86,7 +86,6 @@ class DiagGaussianActorTanhAction(nn.Module):
         self.apply(weight_init)
         self.action_scale = max_action
         self.action_dim = action_dim
-        self.use_scale = use_scale
 
     def forward(self, state):
         mu, log_std = self.net(state).chunk(2, dim=-1)
@@ -102,9 +101,7 @@ class DiagGaussianActorTanhAction(nn.Module):
         z = actor_dist.rsample()
         action = torch.tanh(z)
 
-        #only used for toy tasks
-        if self.use_scale:
-            action = action * self.action_scale
+        action = action * self.action_scale
         action = action.clamp(-self.action_scale, self.action_scale)
         return action
 
